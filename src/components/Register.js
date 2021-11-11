@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { auth } from '../firebase';
 import '../register.css'
 
@@ -7,13 +7,21 @@ const Register = () => {
 
     const [userEmail, setUserEmail] = useState('')
     const [userPassword, setUserPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const history = useHistory()
 
     const createUser = (e) =>{
-        auth.createUserWithEmailAndPassword(userEmail,userPassword)
-        .then(() => {
-            console.log("create user worked")
-        })
-        .catch((err) => console.log(err))
+        e.preventDefault()
+        if ( userPassword === confirmPassword){
+
+            auth.createUserWithEmailAndPassword(userEmail,userPassword)
+            .then(() => {
+                console.log("create user worked")
+                history.push("./home")
+            })
+            .catch((err) => alert("No es posible ingresar dejando campos vacios, verifica nuevamente"))
+
+        } else { alert("Puede que tus contraseñan no coincidan o el correo ya haya sido registrado previamente.") } 
     }
 
     return (
@@ -38,11 +46,11 @@ const Register = () => {
                 className="confirmPassword"
                 type="password"
                 placeholder="Confirma tu contraseña"
+                onChange={ (e) => {setConfirmPassword(e.target.value)}} 
+                
             />
             <div className="signInInputs">
-            <Link to= "/home">
                 <input id="signIn" type="submit" value="Inicia sesión" onClick={createUser}/>
-            </Link>
             <p>¿Ya tienes cuenta? </p>
             <Link to= "/"><input id="backToLogin" type="submit" value="Inicia sesión" /></Link>
             </div>
