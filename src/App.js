@@ -1,6 +1,7 @@
 /* import logo from './logo.svg'; */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import uuid from 'react-uuid';
+import { auth, buildNote, deleteNote } from './firebase';
 import {
   BrowserRouter as Router,
   Switch,
@@ -20,16 +21,19 @@ function App() {
   const [activeNote, setActiveNote] = useState(false);
 
   const onAddNote = () => {
-
+    
     const newNote = {
-
+      
       id: uuid(),
       title: "Untitled",
       body: "",
       lastModified: Date.now(),
+
+    
     }
 
-    setNotes([newNote,...notes]);
+    setNotes([newNote,...notes]); 
+    buildNote(newNote)
   } 
 
   const onUpdatedNote = (updatedNote) => {
@@ -45,7 +49,11 @@ function App() {
 
   const onDeleteNote = (idToDelete) => {
 
+   
     setNotes(notes.filter((note) => note.id !== idToDelete));
+
+    deleteNote(idToDelete);
+    console.log(idToDelete);
   }
 
   const getActiveNote = () => {
@@ -53,9 +61,39 @@ function App() {
     return notes.find((note) => note.id === activeNote )
   }
 
- 
+
+ /* const [activeUser, setActiveUser] =useState(null);
+
+ auth.onAuthStateChanged(auth,(checkUser) => {
+
+  if (checkUser) {
+    //En caso de que haya sesión iniciada
+
+    setActiveUser(checkUser); 
+
+  } else {
+    //Si no hay sesión iniciada
+    setActiveUser(null);
+
+  }
+ })  */
+
+
+ const [user, setUser] = useState({});
+  
+ useEffect(() => {
+     auth.onAuthStateChanged(user => {
+         if(user) {
+           setUser({email: user.email})
+           console.log(user)
+         } 
+     })
+ }, [])
 
   return (
+      
+    <>
+
     <Router>
     <div className="App">
       <Switch>
@@ -63,7 +101,8 @@ function App() {
         onUpdatedNote = {onUpdatedNote}
         /></Route>
 
-        <Route path="/home" > <Home notes= {notes} 
+        <Route path="/home" > <Home 
+        notes= {notes} 
         onAddNote= {onAddNote} 
         onDeleteNote= {onDeleteNote}
         activeNote= {activeNote}
@@ -77,8 +116,15 @@ function App() {
         <Route path="/"> <Login /></Route>
         
       </Switch>
-    </div>
+    </div> 
+
+   {/*  {activeUser ? < Home /> : <Login />}, */}
+
   </Router>
+
+</>
+
+
   );
 }
 
