@@ -28,7 +28,7 @@ const Home = ({notes, onAddNote, onDeleteNote, activeNote, setActiveNote}) => {
                             height= { 22 } width= { 20 } alt=""></img>
                         </button>
                     
-                    <p> {note.body && note.body.substr(0,100) + "..."} </p>
+                    <p> {note.body && note.body.substr(0,100) + "..."} Escribe algo aquí </p>
                     <small>Ultima modificación {new Date (note.lastModified).toLocaleDateString("es-ES",{
                         hour: "2-digit",
                         minute: "2-digit"
