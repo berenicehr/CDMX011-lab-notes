@@ -2,6 +2,7 @@ import React from 'react';
 
 const Note = ({activeNote, updatedNote}) => {
 
+    
     const onEditField = (field, value) => {
          updatedNote({
            ...activeNote,

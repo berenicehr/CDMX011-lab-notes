@@ -23,8 +23,12 @@ export const provider = new firebase.auth.GoogleAuthProvider();
 export const buildNote = (newNote) => db.collection('notes').doc().set({
   newNote
 });
+
 // delete note on firestore
-export const deleteNote = (id) => db.collection('notes').doc(id).delete();
+export const deleteNote = (id) => {
+  db.collection('notes').doc(id).delete();
+  console.log(id);
+};
 
 
 

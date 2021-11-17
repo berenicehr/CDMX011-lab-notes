@@ -38,7 +38,7 @@ function App() {
 
   const onUpdatedNote = (updatedNote) => {
     const updatedNoteArray = notes.map( (note) => {
-      if (note.id === updatedNote){
+      if (note.id === activeNote){
         return updatedNote;
       }
       return note;
@@ -53,7 +53,7 @@ function App() {
     setNotes(notes.filter((note) => note.id !== idToDelete));
 
     deleteNote(idToDelete);
-    console.log(idToDelete);
+   /*  console.log(idToDelete); */
   }
 
   const getActiveNote = () => {
