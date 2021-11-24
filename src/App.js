@@ -18,13 +18,12 @@ function App() {
 
   const [notes, setNotes] = useState ([]);
 
-  const [activeNote, setActiveNote] = useState(false);
 
   const onAddNote = () => {
     
     const newNote = {
       
-      id: uuid(),
+      id: uuid,
       title: "Untitled",
       body: "",
       lastModified: Date.now(),
@@ -34,18 +33,10 @@ function App() {
 
     setNotes([newNote,...notes]); 
     buildNote(newNote)
+
   } 
 
-  const onUpdatedNote = (updatedNote) => {
-    const updatedNoteArray = notes.map( (note) => {
-      if (note.id === updatedNote){
-        return updatedNote;
-      }
-      return note;
-    })
 
-    setNotes(updatedNoteArray);
-  }
 
   const onDeleteNote = (idToDelete) => {
 
@@ -53,30 +44,9 @@ function App() {
     setNotes(notes.filter((note) => note.id !== idToDelete));
 
     deleteNote(idToDelete);
-    console.log(idToDelete);
+   /*  console.log(idToDelete); */
   }
 
-  const getActiveNote = () => {
-
-    return notes.find((note) => note.id === activeNote )
-  }
-
-
- /* const [activeUser, setActiveUser] =useState(null);
-
- auth.onAuthStateChanged(auth,(checkUser) => {
-
-  if (checkUser) {
-    //En caso de que haya sesión iniciada
-
-    setActiveUser(checkUser); 
-
-  } else {
-    //Si no hay sesión iniciada
-    setActiveUser(null);
-
-  }
- })  */
 
 
  const [user, setUser] = useState({});
@@ -97,28 +67,21 @@ function App() {
     <Router>
     <div className="App">
       <Switch>
-        <Route path="/note" > <Note  activeNote= {getActiveNote()}
-        onUpdatedNote = {onUpdatedNote}
-        /></Route>
+        <Route path="/note" > <Note /></Route>
 
         <Route path="/home" > <Home 
         notes= {notes} 
         onAddNote= {onAddNote} 
         onDeleteNote= {onDeleteNote}
-        activeNote= {activeNote}
-        setActiveNote= {setActiveNote}
+        userEmail = {user.email}
         /></Route>
-
-
-       
+   
         <Route path="/register"><Register /></Route>
         
         <Route path="/"> <Login /></Route>
         
       </Switch>
     </div> 
-
-   {/*  {activeUser ? < Home /> : <Login />}, */}
 
   </Router>
 

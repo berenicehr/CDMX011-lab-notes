@@ -1,0 +1,15 @@
+#noteBox{
+    display: flex;
+    justify-content: center;
+    height: 650px;
+    width: 85%;
+    margin-top: 50px;
+    border-radius: 30px;
+    box-sizing: border-box;
+    background: rgba(242, 156, 148, 1);
+    padding: 50px;
+    flex-direction: column;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: center;
+}

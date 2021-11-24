@@ -1,31 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
+import '../Note.css';
+import { buildNotes } from '../firebase';
+import { useHistory } from 'react-router-dom';
 
-const Note = ({activeNote, updatedNote}) => {
+const Note = () => {
 
-    const onEditField = (field, value) => {
-         updatedNote({
-           ...activeNote,
-            [field]:value,
-            lastModified: Date.now()
-        })
-    }
+    const [title, setTitle] = useState('')
+    const [body, setBody ] = useState('')
 
-    if (!activeNote) return <div className="no-active-note">No active note</div>;
 
+const createTitle = (title) => {
+    setTitle(title)
+}
+
+const createBody = (body) => {
+    setBody(body)
+}
+
+const history = useHistory()
+
+const makeNote = (e) => {
+
+    e.preventDefault()
+    buildNotes(title, body).then(() => history.push("/Home"));
+}
+
+ 
     return (
-        <div className ="mainContainer" >
-            <div className = "mainNoteEdit">
-            <input type ="text" id ="title" value= {activeNote.title}  
-            onChange={(e) => onEditField("title", e.target.value) }/>
-            <textarea id ="body" placeholder= "Escribe tu nota aquí" value= {activeNote.body}
-             onChange={(e) => onEditField("body", e.target.value) } >                
+        <form id="noteBox" onSubmit={makeNote}>
+        
+            <input type ="text" id ="title" value={title}
+            onChange={(e) => createTitle(e.target.value) } placeholder= " Añade un titulo" />
+           
+            <textarea id ="body" placeholder= "Escribe tu nota aquí" value={body}
+             onChange={(e) => createBody( e.target.value) } >                
             </textarea>
-            </div>
-            <div className ="notePreview">
-                <h1 className = "previewTitle">{activeNote.title}</h1>
-                <div className = "previewNote">{activeNote.body}</div>
-            </div>
-        </div>
+            <input className ="sentNote" type ="submit" />
+            <br />
+
+        </form>
+
+        
     )
 }
 
