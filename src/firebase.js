@@ -27,19 +27,31 @@ export const buildNote = (newNote) => db.collection('notes').doc().set({
 
 // delete note on firestore
 export const deleteNote = (id) => {
-  db.collection('notes').doc(id).delete();
+  db.collection('notes2').doc(id).delete();
+
   console.log(id);
 };
 
 
 
 
-export const buildNotes = (title, body) => db.collection('notes2').doc().set({
-  title, 
+export const buildNotes = ( title, body) => db.collection('notes2').doc().set({
+  title,
   body,
 },
-console.log(title, body)
+console.log( title, body)
 
 );
 
-export const handleGetData = () =>db.collection("notes2").get()
+
+export const handleOnRealTime = () => db.collection("notes2");
+
+export const updateNote = () => db.collection("notes2").doc().update().then(() => {
+  console.log("Document successfully updated!");
+})
+.catch((error) => {
+  // The document probably doesn't exist.
+  console.error("Error updating document: ", error);
+});;
+
+

@@ -57,13 +57,19 @@ justify-content: space-around;
     margin: 5px;
     background: #F5F5F5;
     width: 33%;
-    height: 33%;
+    height: 35%;
     box-sizing: border-box;
 
 }
 
+.buttons{
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
 
- #deleteButton, .trash {
+
+ #deleteButton, .trash, #editButton {
     background: #F5F5F5;
     border: none;
 }

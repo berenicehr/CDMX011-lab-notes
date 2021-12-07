@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { auth, deleteNote, handleOnRealTime, updateNote} from '../firebase';
-import '../home.css';
+import { React , useEffect, useState} from 'react';
+import { useHistory, Link } from 'react-router-dom';
+import { auth, handleOnRealTime, deleteNote} from '../firebase';
 
-const Home = ({userEmail, dataState, setDataState }) => {
-    
+
+function PrivateRoute({userEmail, dataState, setDataState }) {
+
+ 
+    const history = useHistory();
+
 
     useEffect(() => {
         if (auth.currentUser) {
              console.log("estas registrado")
+             console.log(auth.currentUser);
         } else {
             console.log("no esta el usuario registrado");
             history.push("./Login");
@@ -17,26 +21,25 @@ const Home = ({userEmail, dataState, setDataState }) => {
     }, []);
 
 
-
-    const [edit, setEdit] = useState(false);
+   
 
     // Para leer en tiempo real.
-     useEffect(() => {
+   /*   useEffect(() => { */
 
       /*  const showData = () => { */
 
-        handleOnRealTime().onSnapshot((querySnapshot) => {
+     /*      handleOnRealTime().onSnapshot((querySnapshot) => {
             const arrayUpdate = [];
             querySnapshot.forEach((doc) => {
                 arrayUpdate.push({id: doc.id, ...doc.data()});
             });
             console.log(arrayUpdate);
             setDataState(arrayUpdate);
-        });
+        });  */
     /* }
     showData();
  */
-    }, [setDataState] )   
+  /*   }, [] )  */
 
 
 
@@ -49,7 +52,6 @@ const Home = ({userEmail, dataState, setDataState }) => {
         .catch((err) => console.log(err))
     }
 
-    const history= useHistory()
 
     const makeNewNote = (e) => {
         e.preventDefault()
@@ -57,16 +59,19 @@ const Home = ({userEmail, dataState, setDataState }) => {
 
     }
 
-   const makeEdit = (e) => {
-    e.preventDefault()
-    history.push("/Edit"); 
-   }
+    const makeEdit = (e) => {
+        e.preventDefault() 
+       setDataState();
 
-         
-    
+
+         history.push("/Edit"); 
+    }
+
+
 
     return (
-        <>
+    
+                <>
         <div id="homeContainer">
             <strong>Notas de {userEmail}</strong>
             <br />
@@ -76,7 +81,7 @@ const Home = ({userEmail, dataState, setDataState }) => {
            
             <div id="allNotesContainer">
 
-             { dataState.map ( datos =>
+             { dataState && dataState.map ( datos =>
             <div className = "individualContainer" id="individualNoteContainer" key={datos.id}>
             <strong>{datos.title}</strong>
             <p>{datos.body && datos.body.substr(0,100) + "..."}</p>
@@ -89,7 +94,7 @@ const Home = ({userEmail, dataState, setDataState }) => {
                 height= { 22 } width= { 20 } alt=""></img>
             </button>
             
-            <button id= "editButton"  onClick= {() => makeEdit} > <img className="edit" src= {require('../images/pencil (1).png').default} 
+            <button id= "editButton"  onClick= {makeEdit(datos.data)}> <img className="edit" src= {require('../images/pencil (1).png').default} 
                 height= { 22 } width= { 20 } alt=""></img> </button>
             </div>
             
@@ -102,13 +107,9 @@ const Home = ({userEmail, dataState, setDataState }) => {
                 </button></Link>
         </div>
     </>
-    )
-
-
-
-
+        
+    );
 }
 
-export default Home
-
-
+export default PrivateRoute
+ 
