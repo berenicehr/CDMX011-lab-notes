@@ -89,7 +89,7 @@ const Home = ({userEmail, dataState, setDataState }) => {
                 height= { 22 } width= { 20 } alt=""></img>
             </button>
             
-            <button id= "editButton"  onClick= {() => makeEdit} > <img className="edit" src= {require('../images/pencil (1).png').default} 
+            <button id= "editButton"  onClick= {makeEdit} > <img className="edit" src= {require('../images/pencil (1).png').default} 
                 height= { 22 } width= { 20 } alt=""></img> </button>
             </div>
             

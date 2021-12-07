@@ -12,7 +12,7 @@ import Register from './components/Register';
 import Note from './components/Note';
 import './App.css';
 import Edit from './components/Edit'
-import PrivateRoute from './components/PrivateRoute';
+
 
 
 function App() {
@@ -64,9 +64,6 @@ const [firebaseUser, setFirebaseUser] = useState(false);
    
         <Route path="/register"><Register /></Route>
 
-        <Route path="/privateRoute"><PrivateRoute 
-        userEmail = {user.email}
-        /></Route>
         
         <Route path="/"> <Login /></Route>
 
