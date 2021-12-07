@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../Note.css';
 import { buildNotes } from '../firebase';
-import { useHistory } from 'react-router-dom';
+import { useHistory,  } from 'react-router-dom';
 
 const Note = () => {
 
@@ -25,6 +25,13 @@ const makeNote = (e) => {
     buildNotes(title, body).then(() => history.push("/Home"));
 }
 
+
+const back2Notes = (e) => {
+    e.preventDefault()
+    history.push("/Home");
+
+}
+
  
     return (
         <form id="noteBox" onSubmit={makeNote}>
@@ -35,9 +42,10 @@ const makeNote = (e) => {
             <textarea id ="body" placeholder= "Escribe tu nota aquí" value={body}
              onChange={(e) => createBody( e.target.value) } >                
             </textarea>
-            <input className ="sentNote" type ="submit" />
-            <br />
-
+            <input className ="sentNote" type ="submit"/>  
+            <br />          
+            <input className= "back" onClick={back2Notes}  placeholder= "Regresar a notas" />
+            
         </form>
 
         

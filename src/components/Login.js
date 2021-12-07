@@ -46,7 +46,6 @@ const Login = () => {
           name="email"
           onChange={ (e) => {setUserEmail(e.target.value)}} 
         />
-        {/* <div className ="error">{error}</ div> */}
         <input
           id="password"
           type="password" required
