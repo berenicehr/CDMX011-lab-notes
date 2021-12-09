@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { auth, deleteNote, handleOnRealTime, updateNote} from '../firebase';
+import { auth, deleteNote, handleOnRealTime, getDataByid} from '../firebase';
 import '../home.css';
 
-const Home = ({userEmail, dataState, setDataState }) => {
+const Home = ({userEmail, dataState, setDataState, setCurrentId, currentId}) => {
     
 
     useEffect(() => {
@@ -17,9 +17,6 @@ const Home = ({userEmail, dataState, setDataState }) => {
     }, []);
 
 
-
-    const [edit, setEdit] = useState(false);
-
     // Para leer en tiempo real.
      useEffect(() => {
 
@@ -30,7 +27,7 @@ const Home = ({userEmail, dataState, setDataState }) => {
             querySnapshot.forEach((doc) => {
                 arrayUpdate.push({id: doc.id, ...doc.data()});
             });
-            console.log(arrayUpdate);
+            // console.log(arrayUpdate);
             setDataState(arrayUpdate);
         });
     /* }
@@ -38,6 +35,26 @@ const Home = ({userEmail, dataState, setDataState }) => {
  */
     }, [setDataState] )   
 
+
+        const getEdit = async (id) => {
+        const docs = await handleOnRealTime().doc(id);
+            docs.get().then((doc) => {
+                if(doc.exists){
+                    console.log(doc.data());
+                } else {
+                    console.log("no hay data");
+                }
+            }).catch((error) => {
+                console.log("error", error);
+            });
+    }
+
+    useEffect(() => {
+        if (currentId !== "")
+        console.log(currentId);
+        getEdit(currentId);
+    }, [currentId])
+ 
 
 
 
@@ -57,10 +74,13 @@ const Home = ({userEmail, dataState, setDataState }) => {
 
     }
 
+
+
    const makeEdit = (e) => {
     e.preventDefault()
-    history.push("/Edit"); 
+    history.push("/Note"); 
    }
+
 
          
     
@@ -89,8 +109,8 @@ const Home = ({userEmail, dataState, setDataState }) => {
                 height= { 22 } width= { 20 } alt=""></img>
             </button>
             
-            <button id= "editButton"  onClick= {() => makeEdit} > <img className="edit" src= {require('../images/pencil (1).png').default} 
-                height= { 22 } width= { 20 } alt=""></img> </button>
+            {/* <Link to= "/Note" id="Go2Note"> */}<button id= "editButton"   onClick= {() => setCurrentId(datos.id)} > <img className="edit" src= {require('../images/pencil (1).png').default} 
+                height= { 22 } width= { 20 } alt=""></img> </button>{/* </Link> */}
             </div>
             
             </div>)} 
@@ -110,5 +130,3 @@ const Home = ({userEmail, dataState, setDataState }) => {
 }
 
 export default Home
-
-
