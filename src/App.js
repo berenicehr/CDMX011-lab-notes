@@ -37,6 +37,8 @@ const [firebaseUser, setFirebaseUser] = useState(false);
 
  const [dataState, setDataState]= useState([]);
 
+ const [currentId, setCurrentId] = useState('');
+
   return  firebaseUser !== false ? ( 
       
     <>
@@ -53,13 +55,22 @@ const [firebaseUser, setFirebaseUser] = useState(false);
         setDataState ={setDataState}
       /></Route>
 
-        <Route path="/note" > <Note /></Route>
+        <Route path="/note" > <Note 
+        
+        dataState = {dataState}
+        setDataState ={setDataState}
+        currentId = {currentId}
+        setCurrentId = {setCurrentId}
+        
+        /></Route>
 
         <Route path="/home" > <Home 
 
         userEmail = {user.email}
         dataState = {dataState}
         setDataState ={setDataState}
+        currentId = {currentId}
+        setCurrentId = {setCurrentId}
         /></Route>
    
         <Route path="/register"><Register /></Route>

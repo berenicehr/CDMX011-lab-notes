@@ -19,11 +19,6 @@ export const db = fb.firestore();
 export const auth = fb.auth();
 //Get google tools
 export const provider = new firebase.auth.GoogleAuthProvider();
-//create collection for notes
-export const buildNote = (newNote) => db.collection('notes').doc().set({
-  newNote
-});
-
 
 // delete note on firestore
 export const deleteNote = (id) => {
@@ -32,9 +27,7 @@ export const deleteNote = (id) => {
   console.log(id);
 };
 
-
-
-
+//create collection for notes
 export const buildNotes = ( title, body) => db.collection('notes2').doc().set({
   title,
   body,
@@ -43,8 +36,12 @@ console.log( title, body)
 
 );
 
-
+//Get data on real time on screen 
 export const handleOnRealTime = () => db.collection("notes2");
+
+export const getDataByid = (id) => db.collection("notes2").doc().get().then(() => {
+  console.log(id);
+})
 
 export const updateNote = () => db.collection("notes2").doc().update().then(() => {
   console.log("Document successfully updated!");
